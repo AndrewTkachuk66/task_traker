@@ -8,6 +8,8 @@ import com.andrew.task.tracker.repository.UserAccountRepository;
 import com.andrew.task.tracker.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -39,5 +41,11 @@ public class UserServiceImpl implements UserService {
     public UserDto saveUser(UserEntity userEntity) {
         userAccountRepository.save(userEntity);
         return userMapper.toUserDto(userEntity);
+    }
+
+    @Override
+    public Page<UserEntity> findAllUsersPages(Pageable pageable) {
+        log.info("Users pages were loaded by pageable - {}", pageable);
+        return userAccountRepository.findAll(pageable);
     }
 }
